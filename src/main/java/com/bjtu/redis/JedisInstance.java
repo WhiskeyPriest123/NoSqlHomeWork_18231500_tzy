@@ -18,7 +18,6 @@ public class JedisInstance {
             JedisPoolConfig config = new JedisPoolConfig();
             config.setMaxTotal(30);
             config.setMaxIdle(10);
-
             jedisPool = new JedisPool(config, "127.0.0.1", 6379);
         }
         public JedisPool getInstnce(){
