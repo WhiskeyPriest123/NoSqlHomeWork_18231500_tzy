@@ -6,7 +6,7 @@ import redis.clients.jedis.JedisPoolConfig;
 
 public class JedisInstance {
     //私有化构造函数
-    private JedisInstance(){ }
+    private JedisInstance(){ }//私有构造器
 
     //定义一个静态枚举类
     static enum SingletonEnum{
@@ -24,6 +24,7 @@ public class JedisInstance {
             return jedisPool;
         }
     }
+
  
     //对外暴露一个获取User对象的静态方法
     public static JedisPool getInstance(){
