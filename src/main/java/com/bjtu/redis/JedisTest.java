@@ -7,8 +7,7 @@ import redis.clients.jedis.JedisPoolConfig;
 
 import javax.jws.soap.SOAPBinding;
 import java.io.*;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 public class JedisTest {
     private Jedis jedis;
@@ -97,6 +96,23 @@ public class JedisTest {
         List<String> list = jedis.lrange("MyList",0,Number);
         for(int i=0; i<list.size(); i++) {
             System.out.println("列表项为: "+list.get(i));
+        }
+        return list;
+    }
+
+    public List<String> showGiventime(int begin,int end){//
+        if (end<begin){
+            int temp=begin;
+            begin=end;
+            end=temp;
+        }
+        List<String> list = jedis.lrange("MyList",0,-1);
+        List<String> result = null ;
+        for(int i=0; i<list.size(); i++) {
+            String temp=list.get(i);
+            if(Integer.parseInt(temp.substring(2))<=end&&Integer.parseInt(temp.substring(2))>=begin) {
+                result.add(temp);
+            }
         }
         return list;
     }
