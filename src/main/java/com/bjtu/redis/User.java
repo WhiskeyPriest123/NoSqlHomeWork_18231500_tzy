@@ -15,6 +15,8 @@ public class User {
     @JSONField(name = "Name")
     private String Name;
 
+    @JSONField(name = "No")
+    private String No;
     private String FileName="";
 
     //两种构造方法
@@ -31,7 +33,7 @@ public class User {
     }
     public void setAction(){//获得当前时间
         SimpleDateFormat sdf = new SimpleDateFormat();// 格式化时间
-        sdf.applyPattern("yyyy-MM-dd HH:mm:ss");
+        sdf.applyPattern("HH:mm");
         Date date = new Date();// 获取当前时间
         this.Action=sdf.format(date);
     }
@@ -49,17 +51,22 @@ public class User {
     public String getFileName(){
         return this.FileName;
     }
+    public String getNo(){
+        return this.No;
+    }
     public User(String JsonObject){
         super();
         this.Count=JSON.parseObject(JsonObject, User.class).Count;
         this.Name=JSON.parseObject(JsonObject, User.class).Name;
         this.Action = JSON.parseObject(JsonObject, User.class).Action;
+        this.No = JSON.parseObject(JsonObject, User.class).No;
     }
-    public User(int Count, String Name, String Action) {
+    public User(int Count, String Name, String Action,String No) {
         super();
         this.Count=Count;
         this.Name=Name;
         this.Action=Action;
+        this.No=No;
     }
 
     @Override
@@ -68,6 +75,7 @@ public class User {
                 "Count=" + Count +
                 ", Name='" + Name + '\'' +
                 ", Action='" + Action + '\'' +
+                ", No='" + No + '\'' +
                 ", FileName="  +FileName+
                 '}';
     }

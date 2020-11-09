@@ -7,6 +7,9 @@ import redis.clients.jedis.JedisPoolConfig;
 
 import javax.jws.soap.SOAPBinding;
 import java.io.*;
+import java.util.List;
+import java.util.Set;
+
 public class JedisTest {
     private Jedis jedis;
     private String[] JsonContent;
@@ -59,20 +62,27 @@ public class JedisTest {
             Users[i]=new User(JsonContent[i]);
             Users[i].setFileName(JsonFileName[i]);
             System.out.println(Users[i]);
-            String jsonOutput= JSON.toJSONString(Users[i]);
-            System.out.println("Json格式序列化为"+jsonOutput);
-            jedis.set(Users[i].getName(),"1");
+            //jedis.set(Users[i].getNo(),"1");
+            jedis.set(Users[i].getNo()+"Name",Users[i].getName());
+            String jsonOutput= JSON.toJSONString(Users[i]);//json序列化
             WriteJson("src/main/resources/test.json",jsonOutput);
         }
     }
 
     public void setCount(String key){
+        int IntNo=Integer.parseInt(key);
         if(jedis.get(key)==null){
             jedis.set(key,"1");
         }
         else {
+            Users[IntNo].setAction();
+            String jsonOutput= JSON.toJSONString(Users[IntNo]);//json序列化
+            WriteJson("src/main/resources/"+key+".json",jsonOutput);
             jedis.incr(key);
         }
+        jedis.sadd("MySet",Users[IntNo].getAction());
+        jedis.zadd("MyZset",Integer.parseInt(Users[IntNo].getAction().substring(0,2)),Users[IntNo].getAction());//按照小时的顺序来排序
+        jedis.lpush("MyList", Users[IntNo].getAction());
     }
 
     public String showCount(String key){
@@ -82,6 +92,25 @@ public class JedisTest {
         else {
             return jedis.get(key);
         }
+    }
+    public List<String> showList(int Number){
+        List<String> list = jedis.lrange("MyList",0,Number);
+        for(int i=0; i<list.size(); i++) {
+            System.out.println("列表项为: "+list.get(i));
+        }
+        return list;
+    }
+
+    public Set<String> showSet(){
+        Set<String> set = jedis.smembers("MySet");
+        System.out.println(set);
+        return set;
+    }
+
+    public Set<String> showZset(){
+        Set<String> set = jedis.zrangeByScore("MyZset",0,24);
+        System.out.println(set);
+        return set;
     }
 
 
