@@ -15,12 +15,17 @@ public class MainTest {
         JedisTest MyJedis=new JedisTest(FileName);
         Scanner Input=new Scanner(System.in);
         System.out.println("输入你想查询的键");
-        String NO=Input.nextLine();
-        MyJedis.setCount(NO);
-        System.out.println(MyJedis.showCount(NO));
+        //String NO=Input.nextLine();
+        MyJedis.setCount("1");
+        //System.out.println(MyJedis.showCount(NO));
         System.out.println("输入你想查的历史记录的范围");//登录记录
-        int NO1=Input.nextInt();
-        MyJedis.showList(NO1);
+        //int NO1=Input.nextInt();
+        //MyJedis.showList(NO1);
+        System.out.println("以下是Set");
+        MyJedis.showSet();
+        System.out.println("以下是Zset");
+        MyJedis.showZset();
+
 
     }
 }
