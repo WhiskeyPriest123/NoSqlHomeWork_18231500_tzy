@@ -17,12 +17,13 @@ public class User {
 
     @JSONField(name = "No")
     private String No;
+
     private String FileName="";
 
     //两种构造方法
     //一种通过元素构造
     //一种通过json文件构造
-    public void setCount(){
+    public void setCount(){//增加计数
         this.Count++;
     }
     public void setName(String Name){

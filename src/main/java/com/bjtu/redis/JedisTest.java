@@ -35,7 +35,7 @@ public class JedisTest {
         }
     }
     // 把json格式的字符串写到文件
-    private boolean WriteJson(String filePath, String Content) {
+    private boolean WriteJson(String filePath, String Content) {//往json里写文件
         FileWriter fw;
         try {
             fw = new FileWriter(filePath);
@@ -64,11 +64,11 @@ public class JedisTest {
             //jedis.set(Users[i].getNo(),"1");
             jedis.set(Users[i].getNo()+"Name",Users[i].getName());
             String jsonOutput= JSON.toJSONString(Users[i]);//json序列化
-            WriteJson("src/main/resources/test.json",jsonOutput);
+            WriteJson("src/main/resources/test.json",jsonOutput);//测试
         }
     }
 
-    public void setCount(String key){
+    public void setCount(String key){//查询时加一
         int IntNo=Integer.parseInt(key);
         if(jedis.get(key)==null){
             jedis.set(key,"1");
@@ -79,12 +79,13 @@ public class JedisTest {
             WriteJson("src/main/resources/"+key+".json",jsonOutput);
             jedis.incr(key);
         }
+        //依次增加查询次数
         jedis.sadd("MySet",Users[IntNo].getAction());
         jedis.zadd("MyZset",Integer.parseInt(Users[IntNo].getAction().substring(0,2)),Users[IntNo].getAction());//按照小时的顺序来排序
         jedis.lpush("MyList", Users[IntNo].getAction());
     }
 
-    public String showCount(String key){
+    public String showCount(String key){//获得查询次数
         if(jedis.get(key)==null){
             return "ERROR";
         }
@@ -92,7 +93,7 @@ public class JedisTest {
             return jedis.get(key);
         }
     }
-    public List<String> showList(int Number){
+    public List<String> showList(int Number){//展示列表里的内容
         List<String> list = jedis.lrange("MyList",0,Number);
         for(int i=0; i<list.size(); i++) {
             System.out.println("列表项为: "+list.get(i));
@@ -100,7 +101,7 @@ public class JedisTest {
         return list;
     }
 
-    public List<String> showGiventime(int begin,int end){//
+    public List<String> showGiventime(int begin,int end){//不懂这个是不是滑动窗口的意思
         if (end<begin){
             int temp=begin;
             begin=end;
@@ -117,13 +118,13 @@ public class JedisTest {
         return list;
     }
 
-    public Set<String> showSet(){
+    public Set<String> showSet(){//展示set
         Set<String> set = jedis.smembers("MySet");
         System.out.println(set);
         return set;
     }
 
-    public Set<String> showZset(){
+    public Set<String> showZset(){//把小时设为权重标准进行排序
         Set<String> set = jedis.zrangeByScore("MyZset",0,24);
         System.out.println(set);
         return set;
