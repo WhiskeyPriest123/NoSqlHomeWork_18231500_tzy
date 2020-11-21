@@ -83,8 +83,6 @@ public class MyJedis {
             Users[i].setFileName(JsonFileName.get(i));
             System.out.println(Users[i]);
             //jedis.set(Users[i].getNo()+"Name",Users[i].getName());
-            String jsonOutput= JSON.toJSONString(Users[i]);//json序列化
-            WriteJson("src/main/resources/test.json",jsonOutput);//测试
         }
     }
 

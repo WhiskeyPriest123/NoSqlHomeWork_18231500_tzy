@@ -32,6 +32,9 @@ public class FileListener implements FileAlterationListener {
 
         @Override
         public void onFileChange(File file) {//有文件改变
+
+
+
             System.out.println("onFileChange : " + file.getName());
         }
 
