@@ -5,10 +5,23 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 import java.util.regex.Pattern;
+import org.apache.commons.io.FileDeleteStrategy;
+import org.apache.commons.io.FileUtils;
+import org.apache.commons.io.monitor.FileAlterationListenerAdaptor;
+import org.apache.commons.io.monitor.FileAlterationMonitor;
+import org.apache.commons.io.monitor.FileAlterationObserver;
+import org.apache.commons.io.monitor.FileEntry;
 
 public class MainTest {
-    public static void main(String[] args)  {
-        ArrayList<String> FilePath=MyJedis.readfile("src/main/resources");
+    public static void main(String[] args) throws Exception {
+
+        //初始化监听
+        FileMonitor m = new FileMonitor(1000);//设置监控的间隔时间
+        //指定文件夹，添加监听
+        m.monitor("src/main/resources", new FileListener());
+        //开启监听
+        m.start();
+        /*ArrayList<String> FilePath=MyJedis.readfile("src/main/resources");
         System.out.println("共有"+Integer.valueOf(FilePath.size())+"个Json文件");
         MyJedis myjedis=new MyJedis(FilePath);//构造实例
         Scanner Input=new Scanner(System.in);
@@ -28,5 +41,6 @@ public class MainTest {
         myjedis.showSet();
         System.out.println("以下是Zset");
         myjedis.showZset();
+        myjedis.showGiventime(1,20);*/
     }
 }

@@ -8,6 +8,12 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 import java.util.regex.Pattern;
+import org.apache.commons.io.FileDeleteStrategy;
+import org.apache.commons.io.FileUtils;
+import org.apache.commons.io.monitor.FileAlterationListenerAdaptor;
+import org.apache.commons.io.monitor.FileAlterationMonitor;
+import org.apache.commons.io.monitor.FileAlterationObserver;
+import org.apache.commons.io.monitor.FileEntry;
 
 public class MyJedis {
     private Jedis jedis;
@@ -49,7 +55,6 @@ public class MyJedis {
             e.printStackTrace();
             return false;
         }
-
     }
 
     public static ArrayList<String> readfile(String filepath) {//根据文件夹名读取文件
@@ -102,7 +107,7 @@ public class MyJedis {
     }
 
 
-    public void setCount(String key,int CountNumber){//查询时加一
+    public void setCount(String key,int CountNumber){//多次查询
         int IntNo=Integer.parseInt(key);
         if(jedis.get(key)==null){
             jedis.set(key,"1");
@@ -140,17 +145,17 @@ public class MyJedis {
     }
 
     public List<String> showGiventime(int begin,int end){//不懂这个是不是滑动窗口的意思
-        if (end<begin){
+        if (end<begin){//保证end比begin大
             int temp=begin;
             begin=end;
             end=temp;
         }
-        List<String> list = jedis.lrange("MyList",0,-1);
-        List<String> result = null ;
+        List<String> list = jedis.lrange("MyList",begin,end);
+        //List<String> result = null ;
         for(int i=0; i<list.size(); i++) {
             String temp=list.get(i);
             if(Integer.parseInt(temp.substring(2))<=end&&Integer.parseInt(temp.substring(2))>=begin) {
-                result.add(temp);
+                list.add(temp);
             }
         }
         return list;
