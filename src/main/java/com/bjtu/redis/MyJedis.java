@@ -17,8 +17,10 @@ import org.apache.commons.io.monitor.FileEntry;
 
 public class MyJedis {
     private Jedis jedis;
-    private String[] JsonContent;
-    private User[] Users;
+    private ArrayList<String> JsonContent=new ArrayList<>();
+    private ArrayList<User> Users=new ArrayList<>();
+    //private String[] JsonContent;
+    //private User[] Users;
     private String ReadJson(String fileName){//读取Json文件
         String jsonString = "";
         try {
@@ -75,13 +77,13 @@ public class MyJedis {
 
     public MyJedis(ArrayList<String> JsonFileName) {//构造器
         jedis = JedisInstance.getInstance().getResource();//获得资源线程池
-        JsonContent=new String[JsonFileName.size()];//Json内容
-        Users=new User[JsonFileName.size()];//用户
+        //JsonContent=new String[JsonFileName.size()];//Json内容
+        //Users=new User[JsonFileName.size()];//用户
         for (int i = 0; i < JsonFileName.size(); i++) {
-            JsonContent[i]=ReadJson(JsonFileName.get(i));
-            Users[i]=new User(JsonContent[i]);
-            Users[i].setFileName(JsonFileName.get(i));
-            System.out.println(Users[i]);
+            JsonContent.add(ReadJson(JsonFileName.get(i)));
+            Users.add(new User(JsonContent.get(i)));
+            Users.get(i).setFileName(JsonFileName.get(i));
+            System.out.println(Users.get(i));
             //jedis.set(Users[i].getNo()+"Name",Users[i].getName());
         }
     }
@@ -93,15 +95,15 @@ public class MyJedis {
         }
         else {
             jedis.incr(key);
-            Users[IntNo].setAction();
-            Users[IntNo].setCount(jedis.get(key));
-            String jsonOutput= JSON.toJSONString(Users[IntNo]);//json序列化
+            Users.get(IntNo).setAction();
+            Users.get(IntNo).setCount(jedis.get(key));
+            String jsonOutput= JSON.toJSONString(Users.get(IntNo));//json序列化
             WriteJson("src/main/resources/"+key+".json",jsonOutput);
         }
         //依次增加查询次数
-        jedis.sadd("MySet",Users[IntNo].getAction());
-        jedis.zadd("MyZset",Integer.parseInt(Users[IntNo].getAction().substring(0,2)),Users[IntNo].getAction());//按照小时的顺序来排序
-        jedis.lpush("MyList", Users[IntNo].getAction());
+        jedis.sadd("MySet",Users.get(IntNo).getAction());
+        jedis.zadd("MyZset",Integer.parseInt(Users.get(IntNo).getAction().substring(0,2)),Users.get(IntNo).getAction());//按照小时的顺序来排序
+        jedis.lpush("MyList", Users.get(IntNo).getAction());
     }
 
 
@@ -114,15 +116,15 @@ public class MyJedis {
             for(int i=0;i<CountNumber;i++){//增加好几次
                 jedis.incr(key);
             }
-            Users[IntNo].setAction();
-            Users[IntNo].setCount(jedis.get(key));
-            String jsonOutput= JSON.toJSONString(Users[IntNo]);//json序列化
+            Users.get(IntNo).setAction();
+            Users.get(IntNo).setCount(jedis.get(key));
+            String jsonOutput= JSON.toJSONString( Users.get(IntNo));//json序列化
             WriteJson("src/main/resources/"+key+".json",jsonOutput);
         }
         //依次增加查询次数
-        jedis.sadd("MySet",Users[IntNo].getAction());
-        jedis.zadd("MyZset",Integer.parseInt(Users[IntNo].getAction().substring(0,2)),Users[IntNo].getAction());//按照小时的顺序来排序
-        jedis.lpush("MyList", Users[IntNo].getAction());
+        jedis.sadd("MySet", Users.get(IntNo).getAction());
+        jedis.zadd("MyZset",Integer.parseInt( Users.get(IntNo).getAction().substring(0,2)), Users.get(IntNo).getAction());//按照小时的顺序来排序
+        jedis.lpush("MyList",  Users.get(IntNo).getAction());
     }
 
     public String showCount(String key){//获得查询次数
