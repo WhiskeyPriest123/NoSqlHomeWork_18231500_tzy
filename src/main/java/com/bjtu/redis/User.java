@@ -16,7 +16,7 @@ import org.apache.commons.io.monitor.FileEntry;
 public class User {
 
     @JSONField(name = "Count")
-    private int Count;
+    public int Count;
     @JSONField(name = "Action")//最近一次登录
     private String Action;
 

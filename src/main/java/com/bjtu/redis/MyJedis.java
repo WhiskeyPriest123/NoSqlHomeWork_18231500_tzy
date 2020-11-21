@@ -21,7 +21,7 @@ public class MyJedis {
     private ArrayList<User> Users=new ArrayList<>();
     //private String[] JsonContent;
     //private User[] Users;
-    private String ReadJson(String fileName){//读取Json文件
+    public static String ReadJson(String fileName){//读取Json文件
         String jsonString = "";
         try {
             File jsonFile = new File(fileName);
@@ -59,7 +59,7 @@ public class MyJedis {
         }
     }
 
-    public static ArrayList<String> readfile(String filepath) {//根据文件夹名读取文件
+    public static ArrayList<String> ReadFileName(String filepath) {//根据文件夹名读取文件名
         ArrayList<String> output=new ArrayList<String>();
         File file = new File(filepath);
         String[] filelist = file.list();

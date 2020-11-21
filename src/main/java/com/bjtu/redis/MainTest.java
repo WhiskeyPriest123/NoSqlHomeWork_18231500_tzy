@@ -21,7 +21,7 @@ public class MainTest {
         m.monitor("src/main/resources", new FileListener());
         //开启监听
         m.start();
-        ArrayList<String> FilePath=MyJedis.readfile("src/main/resources");
+        ArrayList<String> FilePath=MyJedis.ReadFileName("src/main/resources");
         System.out.println("共有"+Integer.valueOf(FilePath.size())+"个Json文件");
         MyJedis myjedis=new MyJedis(FilePath);//构造实例
         while (true){
@@ -32,7 +32,7 @@ public class MainTest {
             //myjedis.setCount(NO2,ClickNumber);
             System.out.println("输入你想点击的键");
             String NO=Input.nextLine();
-            myjedis.setCount(NO);
+            //myjedis.setCount(NO);
             System.out.println("当前键的信息");
             System.out.println(myjedis.showCount(NO));
             System.out.println("输入你想查的List历史记录的范围");//登录记录
