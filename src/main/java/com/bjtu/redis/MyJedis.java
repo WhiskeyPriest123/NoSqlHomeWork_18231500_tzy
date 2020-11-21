@@ -89,10 +89,32 @@ public class MyJedis {
             jedis.set(key,"1");
         }
         else {
+            jedis.incr(key);
             Users[IntNo].setAction();
+            Users[IntNo].setCount(jedis.get(key));
             String jsonOutput= JSON.toJSONString(Users[IntNo]);//json序列化
             WriteJson("src/main/resources/"+key+".json",jsonOutput);
-            jedis.incr(key);
+        }
+        //依次增加查询次数
+        jedis.sadd("MySet",Users[IntNo].getAction());
+        jedis.zadd("MyZset",Integer.parseInt(Users[IntNo].getAction().substring(0,2)),Users[IntNo].getAction());//按照小时的顺序来排序
+        jedis.lpush("MyList", Users[IntNo].getAction());
+    }
+
+
+    public void setCount(String key,int CountNumber){//查询时加一
+        int IntNo=Integer.parseInt(key);
+        if(jedis.get(key)==null){
+            jedis.set(key,"1");
+        }
+        else {
+            for(int i=0;i<CountNumber;i++){//增加好几次
+                jedis.incr(key);
+            }
+            Users[IntNo].setAction();
+            Users[IntNo].setCount(jedis.get(key));
+            String jsonOutput= JSON.toJSONString(Users[IntNo]);//json序列化
+            WriteJson("src/main/resources/"+key+".json",jsonOutput);
         }
         //依次增加查询次数
         jedis.sadd("MySet",Users[IntNo].getAction());

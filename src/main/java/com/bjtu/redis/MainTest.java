@@ -9,12 +9,14 @@ import java.util.regex.Pattern;
 public class MainTest {
     public static void main(String[] args)  {
         ArrayList<String> FilePath=MyJedis.readfile("src/main/resources");
-        for(int i=0;i<FilePath.size();i++){
-            System.out.println(FilePath.get(i));
-        }
+        System.out.println("共有"+Integer.valueOf(FilePath.size())+"个Json文件");
         MyJedis myjedis=new MyJedis(FilePath);//构造实例
         Scanner Input=new Scanner(System.in);
-        System.out.println("输入你想查询的键");
+        System.out.println("我想多点几次");
+        String NO2=Input.nextLine();
+        int ClickNumber=Input.nextInt();
+        myjedis.setCount(NO2,ClickNumber);
+        System.out.println("输入你想点击的键");
         String NO=Input.nextLine();
         myjedis.setCount(NO);
         System.out.println("当前键的信息");

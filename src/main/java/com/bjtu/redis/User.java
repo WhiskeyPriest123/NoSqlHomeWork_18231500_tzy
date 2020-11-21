@@ -21,8 +21,8 @@ public class User {
     //两种构造方法
     //一种通过元素构造
     //一种通过json文件构造
-    public void setCount(){//增加计数
-        this.Count++;
+    public void setCount(String Count){//增加计数
+        this.Count=Integer.valueOf(Count);
     }
     public void setFileName(String FileName){
         this.FileName=FileName;
@@ -63,9 +63,9 @@ public class User {
     @Override
     public String toString() {
         return "User{" +
-                "Count=" + Count + + '\'' +
-                ", Action='" + Action + '\'' +
-                ", No='" + No + '\'' +
+                "Count=" + Count  +
+                ", Action=" + Action  +
+                ", No=" + No  +
                 ", FileName="  +FileName+
                 '}';
     }
