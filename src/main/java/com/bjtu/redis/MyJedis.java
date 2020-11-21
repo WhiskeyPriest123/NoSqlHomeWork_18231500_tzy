@@ -1,15 +1,15 @@
 package com.bjtu.redis;
+
 import com.alibaba.fastjson.JSON;
-import com.alibaba.fastjson.JSONObject;
 import redis.clients.jedis.Jedis;
-import redis.clients.jedis.JedisPool;
-import redis.clients.jedis.JedisPoolConfig;
 
-import javax.jws.soap.SOAPBinding;
 import java.io.*;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Set;
+import java.util.regex.Pattern;
 
-public class JedisTest {
+public class MyJedis {
     private Jedis jedis;
     private String[] JsonContent;
     private User[] Users;
@@ -52,17 +52,32 @@ public class JedisTest {
 
     }
 
-    public JedisTest(String[] JsonFileName) {//构造器
+    public static ArrayList<String> readfile(String filepath) {//根据文件夹名读取文件
+        ArrayList<String> output=new ArrayList<String>();
+        File file = new File(filepath);
+        String[] filelist = file.list();
+        for (int i = 0; i < filelist.length; i++) {
+            File readfile = new File(filepath + "\\" + filelist[i]);
+            if (!readfile.isDirectory()) {
+                String FileName=readfile.getName();
+                if(Pattern.matches(".+json$",FileName)){
+                    output.add(readfile.getPath());
+                }
+            }
+        }
+        return output;
+    }
+
+    public MyJedis(ArrayList<String> JsonFileName) {//构造器
         jedis = JedisInstance.getInstance().getResource();//获得资源线程池
-        JsonContent=new String[JsonFileName.length];//Json内容
-        Users=new User[JsonFileName.length];//用户
-        for (int i = 0; i < JsonFileName.length; i++) {
-            JsonContent[i]=ReadJson(JsonFileName[i]);
+        JsonContent=new String[JsonFileName.size()];//Json内容
+        Users=new User[JsonFileName.size()];//用户
+        for (int i = 0; i < JsonFileName.size(); i++) {
+            JsonContent[i]=ReadJson(JsonFileName.get(i));
             Users[i]=new User(JsonContent[i]);
-            Users[i].setFileName(JsonFileName[i]);
+            Users[i].setFileName(JsonFileName.get(i));
             System.out.println(Users[i]);
-            //jedis.set(Users[i].getNo(),"1");
-            jedis.set(Users[i].getNo()+"Name",Users[i].getName());
+            //jedis.set(Users[i].getNo()+"Name",Users[i].getName());
             String jsonOutput= JSON.toJSONString(Users[i]);//json序列化
             WriteJson("src/main/resources/test.json",jsonOutput);//测试
         }
@@ -93,6 +108,7 @@ public class JedisTest {
             return jedis.get(key);
         }
     }
+
     public List<String> showList(int Number){//展示列表里的内容
         List<String> list = jedis.lrange("MyList",0,Number);
         for(int i=0; i<list.size(); i++) {
@@ -129,6 +145,5 @@ public class JedisTest {
         System.out.println(set);
         return set;
     }
-
 
 }
