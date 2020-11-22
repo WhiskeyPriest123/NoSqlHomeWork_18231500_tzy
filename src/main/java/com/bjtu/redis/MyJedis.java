@@ -154,10 +154,10 @@ public class MyJedis {
             end=temp;
         }
         List<String> list = jedis.lrange("MyList",0,-1);
-        List<String> result = null ;
+        List<String> result = new ArrayList<>() ;
         for(int i=0; i<list.size(); i++) {
             String temp=list.get(i);
-            if(Integer.parseInt(temp.substring(0,2))<=end&&Integer.parseInt(temp.substring(0,2))>=begin) {
+            if(Integer.parseInt(temp.substring(0,2))<end&&Integer.parseInt(temp.substring(0,2))>=begin) {
                 result.add(temp);
             }
         }

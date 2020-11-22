@@ -15,6 +15,8 @@ import org.apache.commons.io.monitor.FileEntry;
 
 public class MainTest {
     public static void print123(){
+        System.out.println();
+        System.out.println();
         System.out.println("选择你的操作");
         System.out.println("1.点击一次");
         System.out.println("2.点击多次");
