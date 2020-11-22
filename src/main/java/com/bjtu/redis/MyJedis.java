@@ -13,8 +13,6 @@ public class MyJedis {
     private Jedis jedis;
     private ArrayList<String> JsonContent=new ArrayList<>();
     private ArrayList<User> Users=new ArrayList<>();
-    //private String[] JsonContent;
-    //private User[] Users;
     public static String ReadJson(String fileName){//读取Json文件
         String jsonString = "";
         try {
