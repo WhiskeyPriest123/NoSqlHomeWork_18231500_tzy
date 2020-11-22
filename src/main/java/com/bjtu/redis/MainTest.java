@@ -62,10 +62,11 @@ public class MainTest {
                 List<String> list=myjedis.showList();
                 if (list.size()==0){
                     System.out.println("Not Found");
-                    continue;
                 }
-                for(int i=0; i<list.size(); i++) {
-                    System.out.println("列表项为: "+list.get(i));
+                else{
+                    for(int i=0; i<list.size(); i++) {
+                        System.out.println("列表项为: "+list.get(i));
+                    }
                 }
             }
             else if(type.equals("5")){
@@ -87,11 +88,13 @@ public class MainTest {
                 List<String> list=myjedis.showGiventime(Begin,End);
                 if (list.size()==0){
                     System.out.println("Not Found");
-                    continue;
                 }
-                for(int i=0; i<list.size(); i++) {
-                    System.out.println("列表项为: "+list.get(i));
+                else{
+                    for(int i=0; i<list.size(); i++) {
+                        System.out.println("列表项为: "+list.get(i));
+                    }
                 }
+
             }
             else if(type.equals("8")){
                 System.out.println("输入键");
@@ -100,10 +103,11 @@ public class MainTest {
                 List<String> list=myjedis.showUserList(key+"list");
                 if (list.size()==0){
                     System.out.println("Not Found");
-                    continue;
                 }
-                for(int i=0; i<list.size(); i++) {
-                    System.out.println("列表项为: "+list.get(i));
+                else {
+                    for (int i = 0; i < list.size(); i++) {
+                        System.out.println("列表项为: " + list.get(i));
+                    }
                 }
             }
             print123();

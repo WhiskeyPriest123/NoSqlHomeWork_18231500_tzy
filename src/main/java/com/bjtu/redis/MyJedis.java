@@ -36,7 +36,6 @@ public class MyJedis {
             return null;
         }
     }
-    // 把json格式的字符串写到文件
     private boolean WriteJson(String filePath, String Content) {//往json里写文件
         FileWriter fw;
         try {
@@ -52,7 +51,7 @@ public class MyJedis {
             return false;
         }
     }
-
+    //往json里写文件
     public static ArrayList<String> ReadFileName(String filepath) {//根据文件夹名读取文件名
         ArrayList<String> output=new ArrayList<String>();
         File file = new File(filepath);
@@ -61,7 +60,7 @@ public class MyJedis {
             File readfile = new File(filepath + "\\" + filelist[i]);
             if (!readfile.isDirectory()) {
                 String FileName=readfile.getName();
-                if(Pattern.matches(".+json$",FileName)){
+                if(Pattern.matches(".+json$",FileName)){//正则表达式读取指定文件格式
                     output.add(readfile.getPath());
                 }
             }
@@ -121,7 +120,7 @@ public class MyJedis {
 
         //依次增加查询次数
         jedis.sadd("MySet", Users.get(IntNo).getAction());
-        jedis.zadd("MyZset",Integer.parseInt( Users.get(IntNo).getAction().substring(0,2)), Users.get(IntNo).getAction());//按照小时的顺序来排序
+        jedis.zadd("MyZset",Integer.parseInt( Users.get(IntNo).getAction().substring(0,2)), Users.get(IntNo).getAction());//按照小时作为权重,顺序来排序
         jedis.lpush("MyList",  Users.get(IntNo).getAction());
     }
 

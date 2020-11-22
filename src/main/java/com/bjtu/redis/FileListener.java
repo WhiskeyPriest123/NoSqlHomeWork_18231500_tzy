@@ -36,7 +36,7 @@ public class FileListener implements FileAlterationListener {//文件监听类
         public void onFileChange(File file) {//有文件改变
             String jsoncontent=MyJedis.ReadJson(file.getAbsolutePath());
             int Count= JSON.parseObject(jsoncontent, User.class).Count;
-            Jedis jedis = JedisInstance.getInstance().getResource();//获得资源线程池
+            Jedis jedis = JedisInstance.getInstance().getResource();//获得单例资源线程池
             jedis.set(file.getName().substring(0,1),Integer.toString(Count));
             //System.out.println("onFileChange : " + file.getName().substring(0,1));
         }
