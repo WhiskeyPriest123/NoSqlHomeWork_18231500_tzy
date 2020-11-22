@@ -15,6 +15,7 @@ import org.apache.commons.io.monitor.FileEntry;
 
 public class MainTest {
     public static void print123(){
+        System.out.println("选择你的操作");
         System.out.println("1.点击一次");
         System.out.println("2.点击多次");
         System.out.println("3.查看指定键");
@@ -57,6 +58,10 @@ public class MainTest {
             else if(type.equals("4")){
                 System.out.println("以下是所有List记录");//登录记录
                 List<String> list=myjedis.showList();
+                if (list.size()==0){
+                    System.out.println("Not Found");
+                    continue;
+                }
                 for(int i=0; i<list.size(); i++) {
                     System.out.println("列表项为: "+list.get(i));
                 }
@@ -78,6 +83,10 @@ public class MainTest {
                 System.out.println("输入End");
                 int End=Integer.valueOf(Input.nextLine());
                 List<String> list=myjedis.showGiventime(Begin,End);
+                if (list.size()==0){
+                    System.out.println("Not Found");
+                    continue;
+                }
                 for(int i=0; i<list.size(); i++) {
                     System.out.println("列表项为: "+list.get(i));
                 }
@@ -86,11 +95,16 @@ public class MainTest {
                 System.out.println("输入键");
                 String key=Input.nextLine();
                 System.out.println("以下是该用户所有记录");//登录记录
-                List<String> list=myjedis.showUserList(key);
+                List<String> list=myjedis.showUserList(key+"list");
+                if (list.size()==0){
+                    System.out.println("Not Found");
+                    continue;
+                }
                 for(int i=0; i<list.size(); i++) {
                     System.out.println("列表项为: "+list.get(i));
                 }
             }
+            print123();
             type=Input.nextLine();
         }
         System.out.println("GoodBye");

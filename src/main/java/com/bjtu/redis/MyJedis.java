@@ -95,6 +95,7 @@ public class MyJedis {
             WriteJson("src/main/resources/"+key+".json",jsonOutput);
         }
         //依次增加查询次数
+        jedis.lpush(key+"list",Users.get(IntNo).getAction());//该用户的登录时间
         jedis.sadd("MySet",Users.get(IntNo).getAction());
         jedis.zadd("MyZset",Integer.parseInt(Users.get(IntNo).getAction().substring(0,2)),Users.get(IntNo).getAction());//按照小时的顺序来排序
         jedis.lpush("MyList", Users.get(IntNo).getAction());
@@ -143,9 +144,6 @@ public class MyJedis {
 
     public List<String> showList(){//展示列表里的内容
         List<String> list = jedis.lrange("MyList",0,-1);
-        /*for(int i=0; i<list.size(); i++) {
-            System.out.println("列表项为: "+list.get(i));
-        }*/
         return list;
     }
 
@@ -156,14 +154,14 @@ public class MyJedis {
             end=temp;
         }
         List<String> list = jedis.lrange("MyList",0,-1);
-        //List<String> result = null ;
+        List<String> result = null ;
         for(int i=0; i<list.size(); i++) {
             String temp=list.get(i);
             if(Integer.parseInt(temp.substring(0,2))<=end&&Integer.parseInt(temp.substring(0,2))>=begin) {
-                list.add(temp);
+                result.add(temp);
             }
         }
-        return list;
+        return result;
     }
 
     public Set<String> showSet(){//展示set
