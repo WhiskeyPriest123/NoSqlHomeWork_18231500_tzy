@@ -6,7 +6,7 @@ import org.apache.commons.io.monitor.FileAlterationObserver;
 
 import java.io.File;
 
-public class FileMonitor {
+public class FileMonitor {//文件监听
 
     FileAlterationMonitor monitor = null;
 

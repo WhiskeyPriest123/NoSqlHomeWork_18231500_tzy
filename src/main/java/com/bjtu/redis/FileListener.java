@@ -5,7 +5,7 @@ import com.alibaba.fastjson.JSON;
 import org.apache.commons.io.monitor.*;
 import redis.clients.jedis.Jedis;
 
-public class FileListener implements FileAlterationListener {
+public class FileListener implements FileAlterationListener {//文件监听类
 
     @Override
         public void onStart(FileAlterationObserver observer) {//文件初始化

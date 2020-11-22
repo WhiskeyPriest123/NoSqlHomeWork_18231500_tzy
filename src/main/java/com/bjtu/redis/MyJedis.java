@@ -8,12 +8,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 import java.util.regex.Pattern;
-import org.apache.commons.io.FileDeleteStrategy;
-import org.apache.commons.io.FileUtils;
-import org.apache.commons.io.monitor.FileAlterationListenerAdaptor;
-import org.apache.commons.io.monitor.FileAlterationMonitor;
-import org.apache.commons.io.monitor.FileAlterationObserver;
-import org.apache.commons.io.monitor.FileEntry;
 
 public class MyJedis {
     private Jedis jedis;
