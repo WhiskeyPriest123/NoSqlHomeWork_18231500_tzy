@@ -144,11 +144,12 @@ public class MyJedis {
             begin=end;
             end=temp;
         }
-        List<String> list = jedis.lrange("MyList",begin,end);
+        List<String> list = jedis.lrange("MyList",0,-1);
         //List<String> result = null ;
         for(int i=0; i<list.size(); i++) {
             String temp=list.get(i);
-            if(Integer.parseInt(temp.substring(2))<=end&&Integer.parseInt(temp.substring(2))>=begin) {
+            System.out.println(temp.substring(0,2));
+            if(Integer.parseInt(temp.substring(0,2))<=end&&Integer.parseInt(temp.substring(0,2))>=begin) {
                 list.add(temp);
             }
         }

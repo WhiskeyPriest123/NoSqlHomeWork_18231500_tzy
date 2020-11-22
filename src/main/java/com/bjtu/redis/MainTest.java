@@ -34,7 +34,7 @@ public class MainTest {
             System.out.println("当前键的信息");
             System.out.println(myjedis.showCount(NO));
             System.out.println("输入你想查的List历史记录的范围");//登录记录
-            int NO1=Input.nextInt();
+            int NO1=Integer.valueOf(Input.nextLine());
             myjedis.showList(NO1);
             System.out.println("以下是Set");
             myjedis.showSet();
@@ -45,6 +45,7 @@ public class MainTest {
             int Begin=Integer.valueOf(Input.nextLine());
             System.out.println("输入End");
             int End=Integer.valueOf(Input.nextLine());
+            System.out.println(Begin+End);
             myjedis.showGiventime(Begin,End);
         }
     }
