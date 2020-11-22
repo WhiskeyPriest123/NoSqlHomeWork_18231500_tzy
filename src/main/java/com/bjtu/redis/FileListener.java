@@ -29,7 +29,7 @@ public class FileListener implements FileAlterationListener {//文件监听类
 
         @Override
         public void onFileCreate(File file) {//有操作新建了文件
-            System.out.println("待议");
+            //System.out.println("待议");
         }
 
         @Override
@@ -38,12 +38,12 @@ public class FileListener implements FileAlterationListener {//文件监听类
             int Count= JSON.parseObject(jsoncontent, User.class).Count;
             Jedis jedis = JedisInstance.getInstance().getResource();//获得资源线程池
             jedis.set(file.getName().substring(0,1),Integer.toString(Count));
-            System.out.println("onFileChange : " + file.getName().substring(0,1));
+            //System.out.println("onFileChange : " + file.getName().substring(0,1));
         }
 
         @Override
         public void onFileDelete(File file) {//有文件删除
-            System.out.println("待议");
+            //System.out.println("待议");
         }
 
         @Override

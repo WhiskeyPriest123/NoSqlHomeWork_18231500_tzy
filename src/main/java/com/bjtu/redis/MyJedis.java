@@ -82,7 +82,7 @@ public class MyJedis {
         }
     }
 
-    public void setCount(String key){//查询时加一
+    public void Click(String key){//查询时加一
         int IntNo=Integer.parseInt(key);
         if(jedis.get(key)==null){
             jedis.set(key,"1");
@@ -101,10 +101,10 @@ public class MyJedis {
     }
 
 
-    public void setCount(String key,int CountNumber){//多次查询
+    public void Click(String key,int CountNumber){//多次查询
         int IntNo=Integer.parseInt(key);
         if(jedis.get(key)==null){
-            jedis.set(key,"1");
+            jedis.set(key,Integer.toString(CountNumber));
         }
         else {
             for(int i=0;i<CountNumber;i++){//增加好几次
@@ -115,13 +115,16 @@ public class MyJedis {
             String jsonOutput= JSON.toJSONString( Users.get(IntNo));//json序列化
             WriteJson("src/main/resources/"+key+".json",jsonOutput);
         }
+        //增加用户的访问时间
+        jedis.lpush(key+"list",Users.get(IntNo).getAction());//该用户的登录时间
+
         //依次增加查询次数
         jedis.sadd("MySet", Users.get(IntNo).getAction());
         jedis.zadd("MyZset",Integer.parseInt( Users.get(IntNo).getAction().substring(0,2)), Users.get(IntNo).getAction());//按照小时的顺序来排序
         jedis.lpush("MyList",  Users.get(IntNo).getAction());
     }
 
-    public String showCount(String key){//获得查询次数
+    public String getCount(String key){//获得查询次数
         if(jedis.get(key)==null){
             return "ERROR";
         }
@@ -130,15 +133,23 @@ public class MyJedis {
         }
     }
 
-    public List<String> showList(int Number){//展示列表里的内容
-        List<String> list = jedis.lrange("MyList",0,Number);
+    public List<String>showUserList(String key){
+        List<String> list = jedis.lrange(key,0,-1);
         for(int i=0; i<list.size(); i++) {
             System.out.println("列表项为: "+list.get(i));
         }
         return list;
     }
 
-    public List<String> showGiventime(int begin,int end){//不懂这个是不是滑动窗口的意思
+    public List<String> showList(){//展示列表里的内容
+        List<String> list = jedis.lrange("MyList",0,-1);
+        /*for(int i=0; i<list.size(); i++) {
+            System.out.println("列表项为: "+list.get(i));
+        }*/
+        return list;
+    }
+
+    public List<String> showGiventime(int begin,int end){
         if (end<begin){//保证end比begin大
             int temp=begin;
             begin=end;
@@ -148,7 +159,6 @@ public class MyJedis {
         //List<String> result = null ;
         for(int i=0; i<list.size(); i++) {
             String temp=list.get(i);
-            System.out.println(temp.substring(0,2));
             if(Integer.parseInt(temp.substring(0,2))<=end&&Integer.parseInt(temp.substring(0,2))>=begin) {
                 list.add(temp);
             }
@@ -158,13 +168,11 @@ public class MyJedis {
 
     public Set<String> showSet(){//展示set
         Set<String> set = jedis.smembers("MySet");
-        System.out.println(set);
         return set;
     }
 
     public Set<String> showZset(){//把小时设为权重标准进行排序
         Set<String> set = jedis.zrangeByScore("MyZset",0,24);
-        System.out.println(set);
         return set;
     }
 
