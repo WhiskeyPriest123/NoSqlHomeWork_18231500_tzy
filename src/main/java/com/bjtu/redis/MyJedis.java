@@ -115,10 +115,10 @@ public class MyJedis {
         }
         //增加用户的访问时间
         jedis.lpush(key+"list",Users.get(IntNo).getAction());//该用户的登录时间
-
         //依次增加查询次数
+
         jedis.sadd("MySet", Users.get(IntNo).getAction());
-        jedis.zadd("MyZset",Integer.parseInt( Users.get(IntNo).getAction().substring(0,2)), Users.get(IntNo).getAction());//按照小时作为权重,顺序来排序
+        jedis.zadd("MyZset",Integer.parseInt(Users.get(IntNo).getAction().substring(0,2)), Users.get(IntNo).getAction());//按照小时作为权重,顺序来排序
         jedis.lpush("MyList",  Users.get(IntNo).getAction());
     }
 
