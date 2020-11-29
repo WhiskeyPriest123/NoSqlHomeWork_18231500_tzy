@@ -104,7 +104,6 @@ public class MainTest {
                         System.out.println("列表项为: "+list.get(i));
                     }
                 }
-
             }
             else if(type.equals("8")){
                 System.out.println("输入键");
