@@ -34,6 +34,8 @@ public class MainTest {
         System.out.println("7.指定时间区间");
         System.out.println("8.指定用户的登录记录");
         System.out.println("0.退出");
+        System.out.println();
+        System.out.println();
     }
     public static void main(String[] args) throws Exception {
         FileMonitor m = new FileMonitor(500);//设置监控的间隔时间，初始化监听
@@ -97,6 +99,7 @@ public class MainTest {
                     System.out.println("Not Found");
                 }
                 else{
+                    System.out.println("该时间段共有"+list.size()+"个元素");
                     for(int i=0; i<list.size(); i++) {
                         System.out.println("列表项为: "+list.get(i));
                     }
@@ -113,7 +116,7 @@ public class MainTest {
                 }
                 else {
                     for (int i = 0; i < list.size(); i++) {
-                        System.out.println("列表项为: " + list.get(i));
+                        System.out.println("列表项为:" + list.get(i));
                     }
                 }
             }
