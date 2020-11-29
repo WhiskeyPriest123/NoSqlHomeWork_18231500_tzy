@@ -1,5 +1,6 @@
 package com.bjtu.redis;
 import java.io.File;
+import java.util.regex.Pattern;
 
 import com.alibaba.fastjson.JSON;
 import org.apache.commons.io.monitor.*;
@@ -34,10 +35,12 @@ public class FileListener implements FileAlterationListener {//文件监听类
 
         @Override
         public void onFileChange(File file) {//有文件改变
-            String jsoncontent=MyJedis.ReadJson(file.getAbsolutePath());
-            int Count= JSON.parseObject(jsoncontent, User.class).Count;
-            Jedis jedis = JedisInstance.getInstance().getResource();//获得单例资源线程池
-            jedis.set(file.getName().substring(0,1),Integer.toString(Count));
+        if (Pattern.matches("[0-9]+\\.json$",file.getName())){
+                String jsoncontent=MyJedis.ReadJson(file.getAbsolutePath());
+                int Count= JSON.parseObject(jsoncontent, User.class).Count;
+                Jedis jedis = JedisInstance.getInstance().getResource();//获得单例资源线程池
+                jedis.set(file.getName().substring(0,1),Integer.toString(Count));
+            }
             //System.out.println("onFileChange : " + file.getName().substring(0,1));
         }
 
