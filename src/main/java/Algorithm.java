@@ -1,7 +1,10 @@
+import javax.swing.tree.TreeNode;
 import java.lang.reflect.Array;
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
-public class HomeWork {
+public class Algorithm {
     public static String[] reRank(String[] input){
         if(input==null||input.length==0) {//顺序不能换
             return new String[0];
@@ -62,9 +65,48 @@ public class HomeWork {
         return input;
     }
 
+//    public List<String> binaryTreePaths(TreeNode root){//求二叉树的路径
+//        List<String> paths=new ArrayList<>();
+//        if(root==null){
+//            return paths;
+//        }
+//        List<String> leftPaths=binaryTreePaths(root.left);
+//        List<String> rightPaths=binaryTreePaths(root.right);
+//        for(String path:leftPaths){
+//            paths.add(root.val+"->"+path);
+//        }
+//        for(String path:rightPaths){
+//            paths.add(root.val+"->"+path);
+//        }
+//        if(paths.size()==0){
+//            paths.add(""+root.val);
+//        }
+//        return paths;
+//    }
 
-    public static void main(String[] args) {
-        String[] input=new String[]{"r","r","b","g","b","r","g"};
-        Arrays.asList(reRank2(input)).forEach(e->System.out.println(e));
-    }
+//    private int minSum;//找中间子树
+//    private TreeNode minRoot;
+//    public TreeNode findSubtree(TreeNode root){
+//        minSum=999999999;
+//        minRoot=null;
+//        getSum(root);
+//        return minRoot;
+//    }
+//    public int getSum(TreeNode root){
+//        if(root==null){
+//            return 0;
+//        }
+//        int sum=getSum(root.left)+getSum(root.right);
+//        if(sum<midSum){
+//            minSum=sum;
+//            minRoot=root;
+//        }
+//        return sum;
+//    }
+
+
+//    public static void main(String[] args) {
+//        String[] input=new String[]{"r","r","b","g","b","r","g"};
+//        Arrays.asList(reRank2(input)).forEach(e->System.out.println(e));
+//    }
 }

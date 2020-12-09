@@ -1,0 +1,41 @@
+{
+  "Actions": [
+    {
+      "name": "INCR_USER",
+      "description": "增加用户",
+      "retrieve": [
+        {
+          "counterName": "showUserNum"
+        }
+      ],
+      "save": [
+        {
+          "counterName": "incrUserNum"
+        }
+      ]
+    },
+    {
+      "name": "DECR_USER",
+      "description": "减少用户",
+      "retrieve": [
+        {
+          "counterName": "showUserNum"
+        }
+      ],
+      "save": [
+        {
+          "counterName": "decrUserNum"
+        }
+      ]
+    },
+    {
+      "name": "SHOW_USER_FREQ",
+      "description": "显示一定时间内的用户数量",
+      "retrieve": [
+        {
+          "counterName": "showUserFreq"
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,31 @@
+{
+  "counters": [
+    {
+      "counterName": "incrUserNum",
+      "counterIndex": "1",
+      "type": "num",
+      "KeyFields":"User",
+      "valueFields": "1"
+    },
+    {
+      "counterName": "decrUserNum",
+      "counterIndex": "2",
+      "type": "num",
+      "KeyFields":"User",
+      "valueFields": "-1"
+    },
+    {
+      "counterName": "showUserNum",
+      "counterIndex": "3",
+      "type": "num",
+      "KeyFields":"User"
+    },
+    {
+      "counterName": "showUserFreq",
+      "counterIndex": "4",
+      "type": "freq",
+      "KeyFields":"User1000",
+      "fields": "202011271200 202011272400"
+    }
+  ]
+}
