@@ -58,7 +58,7 @@ public class MyJedis {
             File readfile = new File(filepath + "\\" + filelist[i]);
             if (!readfile.isDirectory()) {
                 String FileName=readfile.getName();
-                if(Pattern.matches("[0-9]+\\.json$",FileName)){//正则表达式读取指定文件格式
+                if(Pattern.matches("Counter[0-9]+\\.json$",FileName)){//正则表达式读取指定文件格式
                     output.add(readfile.getPath());
                 }
             }
@@ -89,7 +89,7 @@ public class MyJedis {
             Users.get(IntNo).setAction();
             Users.get(IntNo).setCount(jedis.get(key));
             String jsonOutput= JSON.toJSONString(Users.get(IntNo));//json序列化
-            WriteJson("src/main/resources/"+key+".json",jsonOutput);
+            WriteJson("src/main/resources/Counter"+key+".json",jsonOutput);
         }
         //依次增加查询次数
         jedis.lpush(key+"list",Users.get(IntNo).getAction());//该用户的登录时间
