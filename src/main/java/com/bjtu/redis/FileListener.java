@@ -35,11 +35,12 @@ public class FileListener implements FileAlterationListener {//文件监听类
 
         @Override
         public void onFileChange(File file) {//有文件改变
-        if (Pattern.matches("[0-9]+\\.json$",file.getName())){
+        if (Pattern.matches("Counter[0-9]+\\.json$",file.getName())){
                 String jsoncontent=MyJedis.ReadJson(file.getAbsolutePath());
-                int Count= JSON.parseObject(jsoncontent, User.class).Count;
+                int Count= JSON.parseObject(jsoncontent, User.class).getCount();
+                String No=JSON.parseObject(jsoncontent, User.class).getNo();
                 Jedis jedis = JedisInstance.getInstance().getResource();//获得单例资源线程池
-                jedis.set(file.getName().substring(0,1),Integer.toString(Count));
+                jedis.set(No,Integer.toString(Count));
             }
             //System.out.println("onFileChange : " + file.getName().substring(0,1));
         }
