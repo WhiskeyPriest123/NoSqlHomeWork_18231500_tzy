@@ -75,7 +75,7 @@ public class MyJedis {
             Users.add(new User(JsonContent.get(i)));
             Users.get(i).setFileName(JsonFileName.get(i));
             System.out.println(Users.get(i));
-            //jedis.set(Users[i].getNo()+"Name",Users[i].getName());
+            jedis.set(Users.get(i).getNo(), Integer.toString(Users.get(i).getCount()));
         }
     }
 
@@ -111,7 +111,7 @@ public class MyJedis {
             Users.get(IntNo).setAction();
             Users.get(IntNo).setCount(jedis.get(key));
             String jsonOutput= JSON.toJSONString( Users.get(IntNo));//json序列化
-            WriteJson("src/main/resources/"+key+".json",jsonOutput);
+            WriteJson("src/main/resources/Counter"+key+".json",jsonOutput);
         }
         //增加用户的访问时间
         jedis.lpush(key+"list",Users.get(IntNo).getAction());//该用户的登录时间
