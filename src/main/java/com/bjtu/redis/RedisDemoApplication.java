@@ -34,14 +34,26 @@ public class RedisDemoApplication {
             if(type.equals("1")) {
                 System.out.println("输入你想点击的键(只点一次)");
                 String NO=Input.nextLine();
-                myjedis.Click(NO);
+                if(Integer.valueOf(NO)>=FilePath.size()){
+                    System.out.println("ERROR");
+                }
+                else {
+                    myjedis.Click(NO);
+                }
+                //myjedis.Click(NO);
             }
             else if(type.equals("2")) {
                 System.out.println("输入你想点击的键");
                 String NO2=Input.nextLine();
                 System.out.println("输入你想点击的次数");
                 int ClickNumber=Integer.valueOf(Input.nextLine());
-                myjedis.Click(NO2,ClickNumber);
+                if(Integer.valueOf(NO2)>=FilePath.size()){
+                    System.out.println("ERROR");
+                }
+                else {
+                    myjedis.Click(NO2,ClickNumber);
+                }
+                //myjedis.Click(NO2,ClickNumber);
             }
             else if(type.equals("3")) {
                 System.out.println("输入你想查询的键");
