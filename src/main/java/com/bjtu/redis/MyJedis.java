@@ -133,7 +133,6 @@ public class MyJedis {
 
     public List<String>showUserList(String key){
         List<String> list = jedis.lrange(key,0,-1);
-        WriteJson("src/main/resources/User"+key+"List.json",JSON.toJSONString(list));//把set写入json里
         /*for(int i=0; i<list.size(); i++) {
             System.out.println("列表项为:"+list.get(i));
         }*/
@@ -142,7 +141,6 @@ public class MyJedis {
 
     public List<String> showList(){//展示列表里的内容
         List<String> list = jedis.lrange("MyList",0,-1);
-        WriteJson("src/main/resources/List.json",JSON.toJSONString(list));//把set写入json里
         return list;
     }
 
@@ -160,19 +158,16 @@ public class MyJedis {
                 result.add(temp);
             }
         }
-        WriteJson("src/main/resources/"+begin+"To"+end+".json",JSON.toJSONString(result));
         return result;
     }
 
     public Set<String> showSet(){//展示set
         Set<String> set = jedis.smembers("MySet");
-        WriteJson("src/main/resources/Set.json",JSON.toJSONString(set));//把set写入json里
         return set;
     }
 
     public Set<String> showZset(){//把小时设为权重标准进行排序
         Set<String> set = jedis.zrangeByScore("MyZset",0,24);
-        WriteJson("src/main/resources/Zset.json",JSON.toJSONString(set));//把set写入json里
         return set;
     }
 
