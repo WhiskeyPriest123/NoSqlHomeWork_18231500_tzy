@@ -3,6 +3,13 @@ package com.bjtu.redis;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Scanner;
+import java.util.Set;
+
+import static com.bjtu.redis.MainTest.print123;
+
 /**
  *  SpringBootApplication
  * 用于代替 @SpringBootConfiguration（@Configuration）、 @EnableAutoConfiguration 、 @ComponentScan。
@@ -13,9 +20,92 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
  */
 @SpringBootApplication
 public class RedisDemoApplication {
-
-    public static void main(String[] args) {
-        SpringApplication.run(RedisDemoApplication.class, args);
+    public static void main(String[] args) throws Exception {
+        FileMonitor m = new FileMonitor(500);//设置监控的间隔时间，初始化监听
+        m.monitor("src/main/resources", new FileListener()); //指定文件夹，添加监听
+        m.start();//开启监听
+        ArrayList<String> FilePath=MyJedis.ReadFileName("src/main/resources");//打开文件
+        System.out.println("共有"+Integer.valueOf(FilePath.size())+"个Json文件");
+        MyJedis myjedis=new MyJedis(FilePath);//构造实例
+        Scanner Input=new Scanner(System.in);
+        print123();
+        String type=Input.nextLine();
+        while (!type.equals("0")){
+            if(type.equals("1")) {
+                System.out.println("输入你想点击的键(只点一次)");
+                String NO=Input.nextLine();
+                myjedis.Click(NO);
+            }
+            else if(type.equals("2")) {
+                System.out.println("输入你想点击的键");
+                String NO2=Input.nextLine();
+                System.out.println("输入你想点击的次数");
+                int ClickNumber=Integer.valueOf(Input.nextLine());
+                myjedis.Click(NO2,ClickNumber);
+            }
+            else if(type.equals("3")) {
+                System.out.println("输入你想查询的键");
+                String NO3=Input.nextLine();
+                System.out.println("当前键的信息");
+                System.out.println(myjedis.getCount(NO3));
+            }
+            else if(type.equals("4")){
+                System.out.println("以下是所有List记录");//登录记录
+                List<String> list=myjedis.showList();
+                if (list.size()==0){
+                    System.out.println("Not Found");
+                }
+                else{
+                    for(int i=0; i<list.size(); i++) {
+                        System.out.println("列表项为: "+list.get(i));
+                    }
+                }
+            }
+            else if(type.equals("5")){
+                System.out.println("以下是Set");
+                Set<String> set=myjedis.showSet();
+                System.out.println(set);
+            }
+            else if(type.equals("6")){
+                System.out.println("以下是Zset(以小时为顺序排序)");
+                Set<String> zset=myjedis.showZset();
+                System.out.println(zset);
+            }
+            else if(type.equals("7")){
+                System.out.println("输入时间区间");
+                System.out.println("输入Begin");
+                int Begin=Integer.valueOf(Input.nextLine());
+                System.out.println("输入End");
+                int End=Integer.valueOf(Input.nextLine());
+                List<String> list=myjedis.showGiventime(Begin,End);
+                if (list.size()==0){
+                    System.out.println("Not Found");
+                }
+                else{
+                    System.out.println("该时间段共有"+list.size()+"个元素");
+                    for(int i=0; i<list.size(); i++) {
+                        System.out.println("列表项为: "+list.get(i));
+                    }
+                }
+            }
+            else if(type.equals("8")){
+                System.out.println("输入键");
+                String key=Input.nextLine();
+                System.out.println("以下是该用户所有记录");//登录记录
+                List<String> list=myjedis.showUserList(key+"list");
+                if (list.size()==0){
+                    System.out.println("Not Found");
+                }
+                else {
+                    for (int i = 0; i < list.size(); i++) {
+                        System.out.println("列表项为:" + list.get(i));
+                    }
+                }
+            }
+            print123();
+            type=Input.nextLine();
+        }
+        System.out.println("GoodBye");
     }
 }
 
